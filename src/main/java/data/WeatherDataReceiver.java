@@ -1,5 +1,7 @@
 package data;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 
 /**
@@ -7,6 +9,6 @@ import java.io.IOException;
  */
 public interface WeatherDataReceiver {
 
-    String getWeatherData(Double latitude, Double longitude) throws IOException;
+    String getWeatherData(Double latitude, Double longitude) throws IOException, JSONException;
 
 }
