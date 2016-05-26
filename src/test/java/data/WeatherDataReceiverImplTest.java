@@ -19,7 +19,7 @@ public class WeatherDataReceiverImplTest {
     public void testReturnsEmptyWeatherDataWhenThereIsNoData() throws Exception {
 
         WeatherDataReceiverImpl spyReceiver = spy(weatherDataReceiverImpl);
-        //when(spyReceiver.getWeatherData(anyString(), anyString())).thenReturn(null);
+
         doReturn(null).when(spyReceiver).getWeatherData(anyString(), anyString());
         assertNull("Did not return null for empty data", spyReceiver.getWeatherData(1d, 2.3));
 
