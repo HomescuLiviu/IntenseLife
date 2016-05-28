@@ -30,9 +30,15 @@ public class WeatherDataReceiverImpl implements WeatherDataReceiver {
     }
 
     private String removeUnneededFields(String responseString) throws JSONException {
+        if (responseString == null) {
+            return null;
+        }
         JSONObject object = new JSONObject(responseString);
         JSONObject returnObject = new JSONObject();
 
+        if (object.names() == null) {
+            return returnObject.toString();
+        }
         for ( int i = 0; i < object.names().length(); i++){
             String name = object.names().getString(i);
             returnObject.put(name, "{}");

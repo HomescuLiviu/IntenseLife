@@ -1,5 +1,6 @@
 package data;
 
+import org.json.JSONException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -25,8 +26,8 @@ public class WeatherDataReceiverImplTest {
 
     }
 
-    @Test
-    public void testReturnsEmptyWeatherDataWhenThereIsEmptyData() throws Exception {
+    @Test(expected = JSONException.class)
+    public void testThrowsExceptionWhenThereIsEmptyData() throws Exception {
 
         WeatherDataReceiverImpl spyReceiver = spy(weatherDataReceiverImpl);
         doReturn("").when(spyReceiver).getWeatherData(anyString(), anyString());
