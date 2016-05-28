@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.springframework.util.StringUtils;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,9 +21,7 @@ public class IntenseLifeControllerTest {
 
     @Test
     public void testSearchingForHistoryReturnsNullWhenThereIsNoData() throws Exception {
-        assertNull("Did not return null for empty data", intenseLifeController.history());
-        assertNull("Did not return null for empty data", intenseLifeController.history());
-        assertNull("Did not return null for empty data", intenseLifeController.history());
+        assertEquals("Did not return empty list for empty data", "[]", intenseLifeController.history());
     }
 
     @Test
