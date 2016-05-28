@@ -1,7 +1,9 @@
 package data;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.net.URL;
 /**
  * Created by liviu on 5/26/2016.
  */
+@Component
 public class WeatherDataReceiverImpl implements WeatherDataReceiver {
 
     private static final String weatherDataLink = "https://api.forecast.io/forecast/e5b06b0fb38a204d65b8905b34f68fc1/";
@@ -29,8 +32,13 @@ public class WeatherDataReceiverImpl implements WeatherDataReceiver {
         return response.toString();
     }
 
-    private String removeUnneededFields(String responseString) throws JSONException {
-        if (responseString == null) {
+    private String removeUnneededFields(String responseString) throws JSONException, IOException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonInString = "{'name' : 'mkyong'}";
+
+
+       if (responseString == null) {
             return null;
         }
         JSONObject object = new JSONObject(responseString);
@@ -39,11 +47,9 @@ public class WeatherDataReceiverImpl implements WeatherDataReceiver {
         if (object.names() == null) {
             return returnObject.toString();
         }
-        for ( int i = 0; i < object.names().length(); i++){
-            String name = object.names().getString(i);
-            returnObject.put(name, "{}");
-        }
-        returnObject.put("currently", object.get("currently"));
+
+        returnObject.put("apparentTemperature", object.getJSONObject("currently").getDouble("apparentTemperature"));
+        returnObject.put("windBearing", object.getJSONObject("currently").getDouble("windBearing"));
         return returnObject.toString();
     }
 
@@ -73,4 +79,6 @@ public class WeatherDataReceiverImpl implements WeatherDataReceiver {
     public String getWeatherData(Double latitude, Double longitude) throws IOException, JSONException {
         return removeUnneededFields(getWeatherData(latitude.toString(), longitude.toString()));
     }
+
+
 }
