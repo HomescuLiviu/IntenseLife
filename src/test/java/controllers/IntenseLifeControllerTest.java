@@ -4,10 +4,12 @@ import data.DataStore;
 import data.DataStoreImpl;
 import data.WeatherDataReceiverImpl;
 import entity.UserInfo;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,10 +19,16 @@ public class IntenseLifeControllerTest {
 
     private static DataStore dataStore =  new DataStoreImpl(weatherDataReceiverImplMock);
 
-    private static final IntenseLifeController intenseLifeController = new IntenseLifeController(dataStore);
+    private static IntenseLifeController intenseLifeController = new IntenseLifeController(dataStore);
 
+    @Before
+    public void setUp(){
+        dataStore =  new DataStoreImpl(weatherDataReceiverImplMock);
+        intenseLifeController = new IntenseLifeController(dataStore);
+    }
     @Test
     public void testSearchingForHistoryReturnsNullWhenThereIsNoData() throws Exception {
+        when(weatherDataReceiverImplMock.getWeatherData(anyDouble(), anyDouble())).thenReturn("{}");
         assertEquals("Did not return empty list for empty data", "[]", intenseLifeController.history());
     }
 
@@ -63,10 +71,6 @@ public class IntenseLifeControllerTest {
         assertEquals("Can not store first steps", 1, StringUtils.countOccurrencesOf(historicalData, "\"steps\":32"));
         assertEquals("Can not store second steps", 1, StringUtils.countOccurrencesOf(historicalData, "\"steps\":40"));
 
-
-
-
-
-    }
+  }
 
 }

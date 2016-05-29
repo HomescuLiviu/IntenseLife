@@ -1,9 +1,5 @@
 package entity;
 
-
-/**
- * Created by liviu on 5/28/2016.
- */
 public class UserInfo {
     Integer userId;
     Double latitude;
